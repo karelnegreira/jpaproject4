@@ -13,7 +13,7 @@ import java.util.List;
 
 public class UsersTest {
     private SessionFactory sessionFactory;
-
+   //
     @BeforeEach
     protected void setUp() throws Exception {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
