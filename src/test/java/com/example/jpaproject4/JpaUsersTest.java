@@ -2,6 +2,10 @@ package com.example.jpaproject4;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -54,5 +58,21 @@ public class JpaUsersTest {
         users.forEach(System.out::println);
 
         em.getTransaction().commit();
+    }
+
+    @Test
+    void criteria_api() {
+        EntityManager em = emf.createEntityManager();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+
+        CriteriaQuery<User> criteriaQuery = cb.createQuery(User.class);
+        Root<User> root = criteriaQuery.from(User.class);
+        criteriaQuery.select(root).where(cb.equal(root.get("name"), "marco"));
+
+        TypedQuery<User> query = em.createQuery(criteriaQuery);
+        List<User> results = query.getResultList();
+        results.forEach(System.out::println);
+
+        em.close();
     }
 }
